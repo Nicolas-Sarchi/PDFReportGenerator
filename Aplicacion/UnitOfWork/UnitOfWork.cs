@@ -18,7 +18,7 @@ namespace Aplicacion.UnitOfWork;
             context = _context;
         }
 
-        public new ICategoria Categorias
+        public  ICategoria Categorias
         {
             get
             {
@@ -29,7 +29,7 @@ namespace Aplicacion.UnitOfWork;
                 return _categorias;
             }
         }
-        public new ICliente Clientes
+        public  ICliente Clientes
         {
             get
             {
@@ -40,7 +40,7 @@ namespace Aplicacion.UnitOfWork;
                 return _clientes;
             }
         }
-        public IDetalleFactura DetalleFacturas
+        public IDetalleFactura DetallesFactura
         {
             get
             {
@@ -51,7 +51,7 @@ namespace Aplicacion.UnitOfWork;
                 return _detalleFacturas;
             }
         }
-        public new IFactura Facturas
+        public  IFactura Facturas
         {
             get
             {
@@ -62,7 +62,7 @@ namespace Aplicacion.UnitOfWork;
                 return _facturas;
             }
         }
-        public new IProducto Productos
+        public  IProducto Productos
         {
             get
             {
@@ -74,10 +74,10 @@ namespace Aplicacion.UnitOfWork;
             }
         }
 
-        public int Save()
-        {
-            return context.SaveChanges();
-        }
+        public async Task<int> SaveAsync()
+    {
+        return await context.SaveChangesAsync();
+    }
 
         public void Dispose()
         {

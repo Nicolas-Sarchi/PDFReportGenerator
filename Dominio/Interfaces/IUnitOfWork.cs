@@ -1,11 +1,11 @@
-namespace Dominio.Interfaces
+namespace Dominio.Interfaces;
+
+public interface IUnitOfWork
 {
-    public class IUnitOfWork
-    {
-       public ICategoria Categorias {get;set;}
-        public ICliente Clientes {get;set;}
-       public IFactura Facturas {get;set;}
-       public IDetalleFactura DetallesFactura {get;set;}
-       public IProducto Productos {get;set;}
-    }
+    ICategoria Categorias {get;}
+    ICliente Clientes {get;}
+    IFactura Facturas {get;}
+    IDetalleFactura DetallesFactura {get;}
+    IProducto Productos {get;}
+    Task<int> SaveAsync();
 }

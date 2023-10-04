@@ -8,15 +8,17 @@ namespace Aplicacion.Repository
 {
     public class ProductoRepository : GenericRepository<Producto>, IProducto
     {
-     private readonly ProjectDbContext _context;
+        private readonly ProjectDbContext _context;
         public ProductoRepository(ProjectDbContext context) : base(context)
         {
             _context = context;
         }
 
-   public override async Task<IEnumerable<Producto>> GetAllAsync()
-{
- return await _context.Productos.ToListAsync();
-}  
-}
+        public override async Task<IEnumerable<Producto>> GetAllAsync()
+        {
+            return await _context.Productos 
+                .Include(p => p.Categoria)
+                .ToListAsync();
+        }
+    }
 }
