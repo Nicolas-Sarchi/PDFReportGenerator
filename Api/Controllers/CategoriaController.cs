@@ -1,4 +1,5 @@
 using Api.Dtos;
+using Api.Generator;
 using AutoMapper;
 using Dominio.Entities;
 using Dominio.Interfaces;
@@ -28,5 +29,16 @@ public class CategoriaController : BaseApiController
     {
         var Categoria = await _unitOfWork.Categorias.GetAllAsync();
         return mapper.Map<List<CategoriaDto>>(Categoria);
+    }
+
+    [HttpPost]
+    public  IActionResult GenerateReport([FromBody] CategoriaDto categoria)
+    {
+        PdfGenerator pdfGenerator = new PdfGenerator();
+
+        var report =  pdfGenerator.GenerateReport(categoria);
+
+          return Ok("El reporte PDF se ha generado correctamente.");
+
     }
 }
