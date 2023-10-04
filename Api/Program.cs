@@ -1,3 +1,8 @@
+using System.Reflection;
+using Api.Extensions;
+using Microsoft.EntityFrameworkCore;
+using Persistencia.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,7 +11,14 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.ConfigureCors();
+builder.Services.AddAppServices();
+builder.Services.AddAutoMapper(Assembly.GetEntryAssembly());
+builder.Services.AddDbContext<ProjectDbContext>(options =>
+{
+    string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -16,6 +28,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("CorsPolicy");
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
@@ -23,3 +36,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
