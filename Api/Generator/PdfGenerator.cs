@@ -1,39 +1,33 @@
 
 
 using Api.Dtos;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
+using iText.Html2pdf;
 
+using System.IO;
 
 namespace Api.Generator
 {
     public class PdfGenerator
     {
-        public byte[] GenerateReport(CategoriaDto categoria)
-        {
-            using (FileStream stream = new FileStream("ejemplo.pdf", FileMode.Create))
-            {
-                Document document = new Document();
-                PdfWriter writer = PdfWriter.GetInstance(document, stream);
+      public byte[] GenerateReport(CategoriaDto categoria)
+{
+    string filePath = "ejemplo.pdf";
+            using FileStream stream = new FileStream(filePath, FileMode.Create);
+            ConverterProperties converterProperties = new ();
 
-                document.Open();
-                Font font = FontFactory.GetFont("Arial", 12);
-                Paragraph paragraph = new Paragraph("Reporte de categoria", font);
-                document.Add(paragraph);
-                
-                Chunk chunk = new Chunk();
-                Paragraph nameParagraph = new Paragraph(categoria.Nombre, font);
-                document.Add(nameParagraph);
-                Paragraph addressParagraph = new Paragraph(categoria.Id, chunk);
-                document.Add(addressParagraph);
+            // Establece el estilo CSS personalizado si es necesario
+            // Puedes cargar tu archivo CSS personalizado aquí si lo tienes
+            // converterProperties.SetCssFile("ruta/al/archivo.css");
 
-                document.Close();
-                // Convertir el FileStream a byte[]
-                byte[] byteArray = new byte[stream.Length];
-                stream.Read(byteArray, 0, (int)stream.Length);
+            HtmlConverter.ConvertToPdf("<html><body>" +
+                                        "<h1>Reporte de categoría</h1>" +
+                                        "<p>Nombre de la categoría: " + categoria.Nombre + "</p>" +
+                                        "<p>ID de la categoría: " + categoria.Id + "</p>" +
+                                        "</body></html>", stream, converterProperties);
 
-                return byteArray;
-            }
+
+            byte[] byteArray = File.ReadAllBytes(filePath);
+
+            return byteArray;
         }
-    }
-}
+}}

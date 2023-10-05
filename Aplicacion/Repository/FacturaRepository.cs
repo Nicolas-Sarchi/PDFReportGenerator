@@ -14,12 +14,14 @@ namespace Aplicacion.Repository
             _context = context;
         }
 
-        // public override async Task<IEnumerable<Factura>> GetAllAsync()
-        // {
-        //     return await _context.Facturas 
-        //         .Include(p => p.Producto)
-        //         .Include(p => p.Cliente)
-        //         .ToListAsync();
-        // }
+        public override async Task<IEnumerable<Factura>> GetAllAsync()
+        {
+            return await _context.Facturas 
+                .Include(p => p.DetallesFactura)
+                .ThenInclude(p => p.Producto)
+                .ThenInclude(p => p.Categoria.Nombre)
+                .Include(p => p.Cliente)
+                .ToListAsync();
+        }
     }
 }
