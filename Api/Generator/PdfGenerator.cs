@@ -1,41 +1,30 @@
-using System;
-using System.IO;
-using Dominio.Entities;
-using iText.Kernel.Pdf;
-using iText.Layout;
-using iText.Layout.Element;
+using Api.Dtos;
+using iTextSharp.text.pdf;
+using Document = iTextSharp.text.Document;
+using Paragraph = iTextSharp.text.Paragraph;
 
 namespace Api.Generator;
-
 public class PdfGenerator
 {
-    public void GenerarPdf(Cliente cliente)
+    public byte[] GenerateReport(CategoriaDto categoria)
     {
-        using (PdfWriter writer = new PdfWriter("Factura.pdf"))
+        using (MemoryStream stream = new MemoryStream())
         {
-            using (PdfDocument pdf = new PdfDocument(writer))
-            {
-                Document document = new Document(pdf);
-                
-                document.Add(new Paragraph($"Cliente: {cliente.Nombre} {cliente.Apellido}"));
-                document.Add(new Paragraph($"Teléfono: {cliente.Telefono}"));
-                document.Add(new Paragraph($"Email: {cliente.Email}"));
-                
-                foreach (var factura in cliente.Facturas)
-                {
-                    document.Add(new Paragraph($"Fecha: {factura.Fecha.ToString()}"));
-                    document.Add(new Paragraph($"Total: {factura.Total}"));
+            Document document = new Document();
+            PdfWriter writer = PdfWriter.GetInstance(document, stream);
 
-                    foreach (var detalle in factura.DetallesFactura)
-                    {
-                        document.Add(new Paragraph($"Producto: {detalle.Producto}"));
-                        document.Add(new Paragraph($"Cantidad: {detalle.Cantidad}"));
-                        document.Add(new Paragraph($"Precio Unitario: {detalle.Precio}"));
-                    }
+            document.Open();
+            Paragraph paragraph = new Paragraph("Reporte de categoria");
+            document.Add(paragraph);
+            
+            Paragraph nameParagraph = new Paragraph("Nombre: " + categoria.Nombre);
+            document.Add(nameParagraph);
+            
+            document.Close();
+            
+            byte[] byteArray = stream.ToArray();
 
-                    document.Add(new AreaBreak());
-                }
-            }
+            return byteArray;
         }
     }
 }

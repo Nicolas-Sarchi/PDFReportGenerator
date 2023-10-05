@@ -1,10 +1,8 @@
 using Api.Dtos;
+using Api.Generator;
 using AutoMapper;
-using Dominio.Entities;
 using Dominio.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.Globalization;
-using System.Linq;
 
 namespace Api.Controllers;
 
@@ -20,13 +18,19 @@ public class CategoriaController : BaseApiController
         mapper = Mapper;
     }
 
-    [HttpGet]
+    [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-
-    public async Task<ActionResult<IEnumerable<CategoriaDto>>> Get()
+    public IActionResult GenerateReport([FromBody] CategoriaDto categoria)
     {
-        var Categoria = await _unitOfWork.Categorias.GetAllAsync();
-        return mapper.Map<List<CategoriaDto>>(Categoria);
+        PdfGenerator pdfGenerator = new PdfGenerator();
+        byte[] pdfBytes = pdfGenerator.GenerateReport(categoria);
+
+        FileContentResult fileContentResult = new FileContentResult(pdfBytes, "application/pdf")
+        {
+            FileDownloadName = "reporte.pdf"
+        };
+
+        return fileContentResult;
     }
 }
