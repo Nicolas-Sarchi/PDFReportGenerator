@@ -13,19 +13,17 @@ namespace Api.Generator
 {
  string currentDirectory = Directory.GetCurrentDirectory();
 
- Console.WriteLine(currentDirectory);
+
 string templateFolderPath = Path.Combine(currentDirectory, "Generator", "Template");
 
-
-    
     var engine = new RazorLightEngineBuilder()
         .UseFileSystemProject(templateFolderPath)
         .Build();
     
     string htmlContent = engine.CompileRenderAsync("FacturaTemplate.cshtml", factura).Result;
 
-    string filePath = "ejemplo.pdf";
-    using (FileStream stream = new FileStream(filePath, FileMode.Create))
+    string filePath = @"C:\Users\APT01-49\Downloads\ejemplo.pdf";
+    using (FileStream stream = new (filePath, FileMode.Create))
     {
         ConverterProperties converterProperties = new ConverterProperties();
         HtmlConverter.ConvertToPdf(htmlContent, stream, converterProperties);

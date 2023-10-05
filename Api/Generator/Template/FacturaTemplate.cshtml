@@ -5,32 +5,15 @@
 <html>
 <head>
     <title>Factura</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            margin: 20px;
-        }
-        .card {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-bottom: 20px;
-            background-color: #f9f9f9;
-        }
-        .card-title {
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-        .card-subtitle {
-            font-size: 16px;
-            color: #777;
-            margin-bottom: 20px;
-        }
-        .card-text {
-            font-size: 16px;
-        }
-        table {
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<style>
+    *{
+        font-family: 'Poppins', sans-serif;
+    }
+    table {
             width: 100%;
             border-collapse: collapse;
         }
@@ -41,13 +24,8 @@
         }
         th {
             background-color: #f2f2f2;
-        }
-        .h4 {
-            font-size: 18px;
-            font-weight: bold;
-            margin-top: 20px;
-        }
-    </style>
+            }
+</style>
 </head>
 <body>
     <div class="container">
@@ -56,13 +34,13 @@
                 <h5 class="card-title">Factura # @Model.Id </h5>
                 <h6 class="card-subtitle mb-2 text-muted">@Model.Fecha</h6>
                 <p class="card-text">
-                    <strong>Cliente:</strong> @Model.Cliente.Nombre @Model.Cliente.Apellido <br>
+                    <strong class="fw-bold">Cliente:</strong> @Model.Cliente.Nombre @Model.Cliente.Apellido <br>
                     <strong>Email:</strong> @Model.Cliente.Email <br>
                     <strong>Teléfono:</strong> @Model.Cliente.Telefono
                 </p>
             </div>
         </div>
-        <table class="table">
+        <table class="table  mt-3">
             <thead>
                 <tr>
                     <th>Producto</th>
@@ -85,10 +63,11 @@
                 }
             </tbody>
         </table>
-        <div class="h4">
+        <div class="mt-5">
             Total: $ @Model.Total
         </div>
     </div>
+
 </body>
 </html>
 
