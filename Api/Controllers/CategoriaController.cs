@@ -33,4 +33,16 @@ public class CategoriaController : BaseApiController
 
         return fileContentResult;
     }
+
+   [HttpPost]
+public IActionResult GenerateReport([FromBody] CategoriaDto categoria)
+{
+    PdfGenerator pdfGenerator = new PdfGenerator();
+
+    var reportBytes = pdfGenerator.GenerateReport(categoria);
+
+    // Devuelve el archivo PDF como respuesta
+    return File(reportBytes, "application/pdf", "reporte.pdf");
+}
+
 }

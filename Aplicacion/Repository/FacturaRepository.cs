@@ -17,8 +17,10 @@ namespace Aplicacion.Repository
         public override async Task<IEnumerable<Factura>> GetAllAsync()
         {
             return await _context.Facturas 
+                .Include(p => p.DetallesFactura)
+                .ThenInclude(p => p.Producto)
+                .ThenInclude(p => p.Categoria.Nombre)
                 .Include(p => p.Cliente)
-                .Include(p => p.DetallesFactura).ThenInclude(p => p.Producto)
                 .ToListAsync();
         }
     }
