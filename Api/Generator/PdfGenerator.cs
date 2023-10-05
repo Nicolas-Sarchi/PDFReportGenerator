@@ -14,7 +14,7 @@ public class PdfGenerator
             PdfWriter writer = PdfWriter.GetInstance(document, stream);
 
             document.Open();
-            Paragraph paragraph = new Paragraph("Reporte de categoria");
+            Paragraph paragraph = new Paragraph("Reporte");
             document.Add(paragraph);
             
             Paragraph nameParagraph = new Paragraph("Nombre: " + categoria.Nombre);
