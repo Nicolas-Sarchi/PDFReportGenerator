@@ -18,13 +18,28 @@ public class CategoriaController : BaseApiController
         mapper = Mapper;
     }
 
+    // [HttpPost]
+    // [ProducesResponseType(StatusCodes.Status200OK)]
+    // [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    // public IActionResult GenerateReportt([FromBody] CategoriaDto categoria)
+    // {
+    //     PdfGenerator pdfGenerator = new PdfGenerator();
+    //     byte[] pdfBytes = pdfGenerator.GenerateReport(categoria);
+
+    //     FileContentResult resultado = new FileContentResult(pdfBytes, "application/pdf")
+    //     {
+    //         FileDownloadName = "reporte.pdf"
+    //     };
+
+    //     return resultado;
+    // }
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public IActionResult GenerateReportt([FromBody] CategoriaDto categoria)
+    public IActionResult GenerateReportt([FromBody] FacturaDto factura)
     {
         PdfGenerator pdfGenerator = new PdfGenerator();
-        byte[] pdfBytes = pdfGenerator.GenerateReport(categoria);
+        byte[] pdfBytes = pdfGenerator.GenerateReport(factura);
 
         FileContentResult resultado = new FileContentResult(pdfBytes, "application/pdf")
         {

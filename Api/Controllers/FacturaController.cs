@@ -1,10 +1,7 @@
 using Api.Dtos;
 using AutoMapper;
-using Dominio.Entities;
 using Dominio.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.Globalization;
-using System.Linq;
 
 namespace Api.Controllers;
 
