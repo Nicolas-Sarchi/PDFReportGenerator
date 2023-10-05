@@ -19,7 +19,7 @@ namespace Aplicacion.Repository
             return await _context.Facturas 
                 .Include(p => p.DetallesFactura)
                 .ThenInclude(p => p.Producto)
-                .ThenInclude(p => p.Categoria.Nombre)
+                .ThenInclude(p => p.Categoria)
                 .Include(p => p.Cliente)
                 .ToListAsync();
         }

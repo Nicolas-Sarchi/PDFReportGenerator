@@ -31,15 +31,16 @@ public class CategoriaController : BaseApiController
         return mapper.Map<List<CategoriaDto>>(Categoria);
     }
 
-   [HttpPost]
-public IActionResult GenerateReport([FromBody] CategoriaDto categoria)
-{
-    PdfGenerator pdfGenerator = new PdfGenerator();
+    [HttpPost]
+    public IActionResult GenerateReport([FromBody] FacturaDto categoria)
+    {
+        PdfGenerator pdfGenerator = new PdfGenerator();
 
-    var reportBytes = pdfGenerator.GenerateReport(categoria);
+        var reportBytes = pdfGenerator.GenerateReport(categoria);
 
-    // Devuelve el archivo PDF como respuesta
-    return File(reportBytes, "application/pdf", "reporte.pdf");
-}
+        // Devuelve el archivo PDF como respuesta
+        return File(reportBytes, "application/pdf", "reporte.pdf");
+    }
+
 
 }

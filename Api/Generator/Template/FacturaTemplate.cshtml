@@ -1,0 +1,94 @@
+
+@model Api.Dtos.FacturaDto
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Factura</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin: 20px;
+        }
+        .card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+        }
+        .card-title {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .card-subtitle {
+            font-size: 16px;
+            color: #777;
+            margin-bottom: 20px;
+        }
+        .card-text {
+            font-size: 16px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .h4 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Factura # @Model.Id </h5>
+                <h6 class="card-subtitle mb-2 text-muted">@Model.Fecha</h6>
+                <p class="card-text">
+                    <strong>Cliente:</strong> @Model.Cliente.Nombre @Model.Cliente.Apellido <br>
+                    <strong>Email:</strong> @Model.Cliente.Email <br>
+                    <strong>Teléfono:</strong> @Model.Cliente.Telefono
+                </p>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Categoría</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.DetallesFactura)
+                {
+                    <tr>
+                        <td>@item.Producto.Nombre</td>
+                        <td>@item.Producto.Categoria.Nombre</td>
+                        <td>$@item.Producto.Precio</td>
+                        <td>@item.Cantidad</td>
+                        <td>$@item.Precio</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="h4">
+            Total: $ @Model.Total
+        </div>
+    </div>
+</body>
+</html>
+
