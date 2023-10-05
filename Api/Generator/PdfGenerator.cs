@@ -15,9 +15,7 @@ namespace Api.Generator
             using FileStream stream = new FileStream(filePath, FileMode.Create);
             ConverterProperties converterProperties = new ();
 
-            // Establece el estilo CSS personalizado si es necesario
-            // Puedes cargar tu archivo CSS personalizado aquí si lo tienes
-            // converterProperties.SetCssFile("ruta/al/archivo.css");
+
 
             HtmlConverter.ConvertToPdf("<html><body>" +
                                         "<h1>Reporte de categoría</h1>" +
