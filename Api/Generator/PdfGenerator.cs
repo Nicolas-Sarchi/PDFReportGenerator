@@ -1,56 +1,38 @@
-using Api.Dtos;
-using iTextSharp.text.pdf;
-using Document = iTextSharp.text.Document;
-using Paragraph = iTextSharp.text.Paragraph;
-
-
-using Api.Dtos;
+using iText.Kernel.Pdf;
+using iText.Layout;
 using iText.Html2pdf;
-
-using System.IO;
+using Api.Dtos;
+using iText.Html2pdf.Css.Apply.Impl;
 
 namespace Api.Generator;
+
 public class PdfGenerator
 {
     public byte[] GenerateReport(CategoriaDto categoria)
     {
         using (MemoryStream stream = new MemoryStream())
         {
-            Document document = new Document();
-            PdfWriter writer = PdfWriter.GetInstance(document, stream);
+            PdfWriter writer = new PdfWriter(stream);
+            PdfDocument pdf = new PdfDocument(writer);
+            Document document = new Document(pdf);
 
-            document.Open();
-            Paragraph paragraph = new Paragraph("Reporte");
-            document.Add(paragraph);
-            
-            Paragraph nameParagraph = new Paragraph("Nombre: " + categoria.Nombre);
-            document.Add(nameParagraph);
-            
+            string archivoHtml = "C:/Users/kevin/Desktop/Nueva carpeta/index.html"; 
+            string html = File.ReadAllText(archivoHtml);
+
+            string archivoCss = "C:/Users/kevin/Desktop/Nueva carpeta/style.css"; 
+            string css = File.ReadAllText(archivoCss);
+
+            ConverterProperties convertir = new ConverterProperties();
+            convertir.SetBaseUri("C:/Users/kevin/Desktop/Nueva carpeta/index.html"); 
+            convertir.SetCssApplierFactory(new DefaultCssApplierFactory());
+
+            HtmlConverter.ConvertToPdf(html, pdf, convertir);
+
             document.Close();
-            
+
             byte[] byteArray = stream.ToArray();
 
             return byteArray;
         }
     }
 }
-      public byte[] GenerateReport(CategoriaDto categoria)
-{
-    string filePath = "ejemplo.pdf";
-            using FileStream stream = new FileStream(filePath, FileMode.Create);
-            ConverterProperties converterProperties = new ();
-
-
-
-            HtmlConverter.ConvertToPdf("<html><body>" +
-                                        "<h1>Reporte de categoría</h1>" +
-                                        "<p>Nombre de la categoría: " + categoria.Nombre + "</p>" +
-                                        "<p>ID de la categoría: " + categoria.Id + "</p>" +
-                                        "</body></html>", stream, converterProperties);
-
-
-            byte[] byteArray = File.ReadAllBytes(filePath);
-
-            return byteArray;
-        }
-

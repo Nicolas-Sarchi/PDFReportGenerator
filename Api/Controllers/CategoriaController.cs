@@ -21,28 +21,16 @@ public class CategoriaController : BaseApiController
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public IActionResult GenerateReport([FromBody] CategoriaDto categoria)
+    public IActionResult GenerateReportt([FromBody] CategoriaDto categoria)
     {
         PdfGenerator pdfGenerator = new PdfGenerator();
         byte[] pdfBytes = pdfGenerator.GenerateReport(categoria);
 
-        FileContentResult fileContentResult = new FileContentResult(pdfBytes, "application/pdf")
+        FileContentResult resultado = new FileContentResult(pdfBytes, "application/pdf")
         {
             FileDownloadName = "reporte.pdf"
         };
 
-        return fileContentResult;
+        return resultado;
     }
-
-   [HttpPost]
-public IActionResult GenerateReport([FromBody] CategoriaDto categoria)
-{
-    PdfGenerator pdfGenerator = new PdfGenerator();
-
-    var reportBytes = pdfGenerator.GenerateReport(categoria);
-
-    // Devuelve el archivo PDF como respuesta
-    return File(reportBytes, "application/pdf", "reporte.pdf");
-}
-
 }
