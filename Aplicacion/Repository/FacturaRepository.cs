@@ -16,12 +16,28 @@ namespace Aplicacion.Repository
 
         public override async Task<IEnumerable<Factura>> GetAllAsync()
         {
-            return await _context.Facturas 
+            return await _context.Facturas
                 .Include(p => p.DetallesFactura)
                 .ThenInclude(p => p.Producto)
                 .ThenInclude(p => p.Categoria)
                 .Include(p => p.Cliente)
                 .ToListAsync();
         }
+
+        public DetalleFactura ValidarDetalleFactura(Factura factura)
+        {
+            var detalleFactura = await _context.DetalleFacturas.SingleOrDefaultAsync(df => df.IdFacturaFk == factura.Id && df.IdProductoFk == detalleFacturaDto.IdProductoFk);
+
+            return detalleFactura;
+        }
+        public override async Task<Factura> GetByIdAsync(int id)
+        {
+            return await _context.Set<Factura>().Include(p => p.DetallesFactura)
+                .ThenInclude(p => p.Producto)
+                .ThenInclude(p => p.Categoria)
+                .Include(p => p.Cliente)
+                .FirstOrDefaultAsync(p => p.Id == id);
+        }
+
     }
 }

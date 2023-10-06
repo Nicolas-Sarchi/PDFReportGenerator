@@ -31,14 +31,13 @@ public class CategoriaController : BaseApiController
         return mapper.Map<List<CategoriaDto>>(Categoria);
     }
 
-    [HttpGet]
-    public IActionResult GenerateReport([FromBody] FacturaDto categoria)
+     [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<CategoriaDto>> Get(int id)
     {
-        PdfGenerator pdfGenerator = new PdfGenerator();
-
-        var reportBytes = pdfGenerator.GenerateReport(categoria);
-
-        return File(reportBytes, "application/pdf", "reporte.pdf");
+        var Pais = await _unitOfWork.Categorias.GetByIdAsync(id);
+        return mapper.Map<CategoriaDto>(Pais);
     }
 
 

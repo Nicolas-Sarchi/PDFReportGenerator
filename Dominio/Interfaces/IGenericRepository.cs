@@ -13,4 +13,5 @@ public interface IGenericRepository<T> where T : BaseEntity
     void Remove(T entity);
     void RemoveRange(IEnumerable<T> entities);
     void Update(T entity);
+    
 }

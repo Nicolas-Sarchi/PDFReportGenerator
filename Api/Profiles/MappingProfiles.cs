@@ -16,6 +16,9 @@ namespace Api.Profiles
             CreateMap<Factura, FacturaDto>().ReverseMap();
             CreateMap<Categoria, CategoriaDto>().ReverseMap();
             CreateMap<DetalleFactura, DetalleFacturaDto>().ReverseMap();
+            CreateMap<Factura, FacturaPostDto>().ReverseMap();
+            CreateMap<DetalleFactura, DetalleFacturaPostDto>().ReverseMap();
+
         }
     }
 }
