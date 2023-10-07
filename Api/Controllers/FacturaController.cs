@@ -31,39 +31,54 @@ public class FacturaController : BaseApiController
         return mapper.Map<List<FacturaDto>>(Factura);
     }
 
+ [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+
+    public async Task<ActionResult<FacturaDto>> GetbyId(int id)
+    {
+        var Factura = await _unitOfWork.Facturas.GetByIdAsync(id);
+        return mapper.Map<FacturaDto>(Factura);
+    }
 
 
-   [HttpPost]
+[HttpPost]
 [ProducesResponseType(StatusCodes.Status201Created)]
 [ProducesResponseType(StatusCodes.Status400BadRequest)]
 public async Task<ActionResult<FacturaDto>> Post(FacturaPostDto factDto)
 {
     var factura = this.mapper.Map<Factura>(factDto);
+
     _unitOfWork.Facturas.Add(factura);
     await _unitOfWork.SaveAsync();
+
+    var detallesFactura = new List<DetalleFactura>();
 
     foreach (var detalleFacturaDto in factDto.DetallesFactura)
     {
         var detalleFactura = this.mapper.Map<DetalleFactura>(detalleFacturaDto);
         detalleFactura.IdFacturaFk = factura.Id;
-        _unitOfWork.DetallesFactura.Add(detalleFactura);
-
+        detallesFactura.Add(detalleFactura);
     }
+
+    factura = await _unitOfWork.Facturas.GetByIdAsync(factura.Id);
     var facturaDto = this.mapper.Map<FacturaDto>(factura);
-    
-    return CreatedAtAction(nameof(Post), new { id = facturaDto.Id }, facturaDto);
+
+    PdfGenerator pdfGenerator = new ();
+    var reportBytes = pdfGenerator.GenerateReport(facturaDto);
+
+    return File(reportBytes, "application/pdf", "factura.pdf");
 }
 
-   [HttpGet("crear-reporte")]
-public IActionResult GenerateReport()
-{
-    PdfGenerator pdfGenerator = new();
 
-    var ultimaFactura = _unitOfWork.Facturas.ObtenerUltimaFactura();
-    var ultimaFacturaDto = mapper.Map<FacturaDto>(ultimaFactura);
-    var reportBytes = pdfGenerator.GenerateReport(ultimaFacturaDto);
+//  [HttpPost]
+//     public IActionResult GenerateReport([FromBody] FacturaDto factura)
+//     {
+//         PdfGenerator pdfGenerator = new ();
 
-    return File(reportBytes, "application/pdf", "reporte.pdf");
-}
+//         var reportBytes = pdfGenerator.GenerateReport(factura);
+
+//         return File(reportBytes, "application/pdf", "reporte.pdf");
+//     }
 
 }

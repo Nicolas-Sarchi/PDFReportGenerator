@@ -24,12 +24,12 @@ namespace Aplicacion.Repository
                 .ToListAsync();
         }
 
-        public DetalleFactura ValidarDetalleFactura(Factura factura)
-        {
-            var detalleFactura = await _context.DetalleFacturas.SingleOrDefaultAsync(df => df.IdFacturaFk == factura.Id && df.IdProductoFk == detalleFacturaDto.IdProductoFk);
+        // public DetalleFactura ValidarDetalleFactura(Factura factura)
+        // {
+        //     var detalleFactura = await _context.DetalleFacturas.SingleOrDefaultAsync(df => df.IdFacturaFk == factura.Id && df.IdProductoFk == detalleFacturaDto.IdProductoFk);
 
-            return detalleFactura;
-        }
+        //     return detalleFactura;
+        // }
         public override async Task<Factura> GetByIdAsync(int id)
         {
             return await _context.Set<Factura>().Include(p => p.DetallesFactura)

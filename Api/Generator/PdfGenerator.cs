@@ -21,11 +21,12 @@ string templateFolderPath = Path.Combine(currentDirectory, "Generator", "Templat
         .Build();
     
     string htmlContent = engine.CompileRenderAsync("FacturaTemplate.cshtml", factura).Result;
-
-    string filePath = @"C:\Users\APT01-49\Downloads\ejemplo.pdf";
+    string fileName = "ejemplo.pdf";
+    string filePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads\\" + fileName;
+    Console.WriteLine(filePath);
     using (FileStream stream = new (filePath, FileMode.Create))
     {
-        ConverterProperties converterProperties = new ConverterProperties();
+        ConverterProperties converterProperties = new ();
         HtmlConverter.ConvertToPdf(htmlContent, stream, converterProperties);
         byte[] byteArray = File.ReadAllBytes(filePath);
 
