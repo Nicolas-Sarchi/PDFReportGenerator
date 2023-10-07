@@ -29,4 +29,13 @@ public class ProductoController : BaseApiController
         var Producto = await _unitOfWork.Productos.GetAllAsync();
         return mapper.Map<List<ProductoDto>>(Producto);
     }
+
+    [HttpGet("ProductoIdCategoriaFk/{categoriaId}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<IEnumerable<Producto>>> GetProductosPorCategoriaa(int categoriaId)
+    {
+        var Producto = await _unitOfWork.Productos.GetProductosPorCategoria(categoriaId);
+        return Producto;
+    }
 }
