@@ -20,9 +20,13 @@ El archivo `PdfGenerator.cs` contiene la lógica para generar los reportes PDF a
 * **Conversión del Contenido HTML a PDF:** Se utiliza `HtmlConverter.ConvertToPdf` para convertir el contenido HTML en un archivo PDF y se guarda en el flujo de archivo.
 * **Lectura y Devolución del Archivo PDF:** Finalmente, se lee el archivo PDF recién creado en un arreglo de bytes (byte[]) y se devuelve como resultado.
 
-### Controlador para Generar el PDF (FacturaController.cs)
+### Controlador para Generar el PDF Usando la base de datos (FacturaController.cs)
 
-El archivo `FacturaController.cs` es un controlador ASP.NET Core que maneja una solicitud HTTP POST para crear una factura y generar un archivo PDF de la misma.
+El endpoint `http://localhost:5191/Tienda/Factura/` es un controlador que maneja una solicitud HTTP POST para crear una factura y generar un archivo PDF de la misma. El objeto que recibe es de la siguiente manera: 
+
+
+![image](https://github.com/Nicolas-Sarchi/PDFReportGenerator/assets/131916765/93c07abd-997b-4d41-91e2-4663596b7d57)
+
 
 ### Principales Pasos:
 
@@ -31,6 +35,13 @@ El archivo `FacturaController.cs` es un controlador ASP.NET Core que maneja una 
 * **Recuperación y Mapeo de la Factura:** Se recupera nuevamente la factura de la base de datos para obtener los datos actualizados y se mapea a un objeto `FacturaDto`.
 * **Generación del Archivo PDF:** Se crea una instancia del generador de PDF y se genera el archivo PDF utilizando los datos de la factura.
 * **Devolución del Archivo PDF:** Finalmente, el archivo PDF se devuelve como respuesta HTTP con el tipo de contenido "application/pdf" y un nombre de archivo "factura.pdf".
+
+### Controlador para Generar el PDF sin usar la db
+Si no desea usar la base de datos puede usar el endpoint `http://localhost:5191/Tienda/Factura/crear-PDF` el cual recibe un objeto de este tipo: 
+
+
+
+![image](https://github.com/Nicolas-Sarchi/PDFReportGenerator/assets/131916765/1c7a78f3-15a6-423e-8fcf-e48cadaeb0ab)
 
 # Video Guía 
 https://www.youtube.com/watch?v=G_OTcme56sQ&authuser=0
