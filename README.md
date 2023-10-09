@@ -30,4 +30,6 @@ El archivo `FacturaController.cs` es un controlador ASP.NET Core que maneja una 
 * **Generación del Archivo PDF:** Se crea una instancia del generador de PDF y se genera el archivo PDF utilizando los datos de la factura.
 * **Devolución del Archivo PDF:** Finalmente, el archivo PDF se devuelve como respuesta HTTP con el tipo de contenido "application/pdf" y un nombre de archivo "factura.pdf".
 
+#### Video Guía 
+https://www.youtube.com/watch?v=G_OTcme56sQ&authuser=0
 
