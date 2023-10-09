@@ -1,10 +1,12 @@
 # PDFReportGenerator
 
 # Uso
+Para poder hacer uso del proyecto correctamente, primero ejecute `dotnet ef database update --project ./Persistence/ --startup-project ./API/
+` para actualizar la base de datos.
 
-Este proyecto consta de dos partes principales:
+##Este proyecto consta de dos partes principales:
 
-## Generador de Reportes PDF (PdfGenerator.cs)
+### Generador de Reportes PDF (PdfGenerator.cs)
 
 El archivo `PdfGenerator.cs` contiene la lógica para generar los reportes PDF a partir de una plantilla Razor y los datos de la factura proporcionados.
 
@@ -18,7 +20,7 @@ El archivo `PdfGenerator.cs` contiene la lógica para generar los reportes PDF a
 * **Conversión del Contenido HTML a PDF:** Se utiliza `HtmlConverter.ConvertToPdf` para convertir el contenido HTML en un archivo PDF y se guarda en el flujo de archivo.
 * **Lectura y Devolución del Archivo PDF:** Finalmente, se lee el archivo PDF recién creado en un arreglo de bytes (byte[]) y se devuelve como resultado.
 
-## Controlador para Generar el PDF (FacturaController.cs)
+### Controlador para Generar el PDF (FacturaController.cs)
 
 El archivo `FacturaController.cs` es un controlador ASP.NET Core que maneja una solicitud HTTP POST para crear una factura y generar un archivo PDF de la misma.
 
@@ -30,6 +32,6 @@ El archivo `FacturaController.cs` es un controlador ASP.NET Core que maneja una 
 * **Generación del Archivo PDF:** Se crea una instancia del generador de PDF y se genera el archivo PDF utilizando los datos de la factura.
 * **Devolución del Archivo PDF:** Finalmente, el archivo PDF se devuelve como respuesta HTTP con el tipo de contenido "application/pdf" y un nombre de archivo "factura.pdf".
 
-#### Video Guía 
+# Video Guía 
 https://www.youtube.com/watch?v=G_OTcme56sQ&authuser=0
 
