@@ -71,14 +71,14 @@ public async Task<ActionResult<FacturaDto>> Post(FacturaPostDto factDto)
 }
 
 
-//  [HttpPost]
-//     public IActionResult GenerateReport([FromBody] FacturaDto factura)
-//     {
-//         PdfGenerator pdfGenerator = new ();
+ [HttpPost("crear-pdf")]
+    public IActionResult GenerateReport([FromBody] FacturaDto factura)
+    {
+        PdfGenerator pdfGenerator = new ();
 
-//         var reportBytes = pdfGenerator.GenerateReport(factura);
+        var reportBytes = pdfGenerator.GenerateReport(factura);
 
-//         return File(reportBytes, "application/pdf", "reporte.pdf");
-//     }
+        return File(reportBytes, "application/pdf", "reporte.pdf");
+    }
 
 }
