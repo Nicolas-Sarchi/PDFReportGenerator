@@ -4,6 +4,7 @@ using AutoMapper;
 using Dominio.Entities;
 using Dominio.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Query;
 using System.Globalization;
 using System.Linq;
 
@@ -47,27 +48,34 @@ public class FacturaController : BaseApiController
 [ProducesResponseType(StatusCodes.Status400BadRequest)]
 public async Task<ActionResult<FacturaDto>> Post(FacturaPostDto factDto)
 {
-    var factura = this.mapper.Map<Factura>(factDto);
-
-    _unitOfWork.Facturas.Add(factura);
-    await _unitOfWork.SaveAsync();
-
-    var detallesFactura = new List<DetalleFactura>();
-
-    foreach (var detalleFacturaDto in factDto.DetallesFactura)
+    try
     {
-        var detalleFactura = this.mapper.Map<DetalleFactura>(detalleFacturaDto);
-        detalleFactura.IdFacturaFk = factura.Id;
-        detallesFactura.Add(detalleFactura);
+        var factura = this.mapper.Map<Factura>(factDto);
+
+        _unitOfWork.Facturas.Add(factura);
+        await _unitOfWork.SaveAsync();
+
+        var detallesFactura = new List<DetalleFactura>();
+
+        foreach (var detalleFacturaDto in factDto.DetallesFactura)
+        {
+            var detalleFactura = this.mapper.Map<DetalleFactura>(detalleFacturaDto);
+            detalleFactura.IdFacturaFk = factura.Id;
+            detallesFactura.Add(detalleFactura);
+        }
+
+        factura = await _unitOfWork.Facturas.GetByIdAsync(factura.Id);
+        var facturaDto = this.mapper.Map<FacturaDto>(factura);
+
+        PdfGenerator pdfGenerator = new ();
+        var reportBytes = pdfGenerator.GenerateReport(facturaDto);
+
+        return File(reportBytes, "application/pdf", "factura.pdf");
+    } catch(Exception ex)
+    {
+        return BadRequest($"Hubo un error al generar el pdf :{ex.Message}");
     }
-
-    factura = await _unitOfWork.Facturas.GetByIdAsync(factura.Id);
-    var facturaDto = this.mapper.Map<FacturaDto>(factura);
-
-    PdfGenerator pdfGenerator = new ();
-    var reportBytes = pdfGenerator.GenerateReport(facturaDto);
-
-    return File(reportBytes, "application/pdf", "factura.pdf");
+    
 }
 
 
