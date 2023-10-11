@@ -1,7 +1,7 @@
 # PDFReportGenerator
 
 # Uso
-Para poder hacer uso del proyecto correctamente, primero ejecute `dotnet ef database update --project ./Persistence/ --startup-project ./API/
+Para poder hacer uso del proyecto correctamente, primero ejecute `dotnet ef database update --project ./Persistencia/ --startup-project ./Api/
 ` para actualizar la base de datos.
 
 ##Este proyecto consta de dos partes principales:
